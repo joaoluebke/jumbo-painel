@@ -116,7 +116,6 @@ export default function ModalUpload({ modalUpload, setModalUpload, product, setP
     }
 
     useEffect(() => {
-        console.log(product);
         if (productImg == "") {
             setDisableButton(false);
         }

@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { parseCookies } from 'nookies';
 import { api } from '../../../lib/axios';
 import { GetServerSideProps } from 'next';
+import { useState, useEffect } from 'react';
 import Toast from '../../../components/Toast';
 import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
@@ -16,7 +17,6 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 
 import { IconButton, Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import Image from 'next/image';
 
 type typeProduct = {
     id: number,
@@ -24,8 +24,8 @@ type typeProduct = {
 }
 
 export default function Products() {
-    const [products, setProducts] = useState([])
     const [product, setProduct] = useState({});
+    const [products, setProducts] = useState([])
     const [modalOpen, setModalOpen] = useState(false);
     const [modalUpload, setModalUpload] = useState(false);
 
@@ -33,8 +33,8 @@ export default function Products() {
     const [typeToast, setTypeToast] = useState<string>("")
     const [openToast, setOpenToast] = useState(false)
 
-    const [productId, setProductId] = React.useState<string>("");
     const [productImg, setProductImg] = useState("");
+    const [productId, setProductId] = useState<string>("");
 
     async function getProducts() {
         try {
@@ -127,7 +127,7 @@ export default function Products() {
         <Box>
             <Header />
             <Toast msg={msg} duration={3000} type={typeToast} openToast={openToast} setOpenToast={setOpenToast} />
-            <ModalUpload modalUpload={modalUpload} setModalUpload={setModalUpload} product={product} setProduct={setProduct} productImg={productImg} setProductImg/>
+            <ModalUpload modalUpload={modalUpload} setModalUpload={setModalUpload} product={product} setProduct={setProduct} productImg={productImg} setProductImg />
             <Box p={15}>
                 <DataGrid
                     sx={{ minWidth: 650, minHeight: 371, mt: 15 }}

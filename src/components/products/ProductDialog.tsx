@@ -90,7 +90,6 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
   }
 
   function transformPromotion(value: string) {
-    console.log('abriu modal', value);
     if (value === 'false') {
       return false;
     } else {
