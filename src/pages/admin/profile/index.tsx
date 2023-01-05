@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles'
 import logo from "../../../assets/logo.png";
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Visibility from '@mui/icons-material/visibility';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import { GetServerSideProps } from 'next';
@@ -204,7 +203,7 @@ export default function Profile() {
                                                         onClick={handleClickShowPassword}
                                                         onMouseDown={handleMouseDownPassword}
                                                     >
-                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        {showPassword ? <VisibilityOff /> : <VisibilityOff />}
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
