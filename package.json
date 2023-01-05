@@ -1,0 +1,41 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@mui/icons-material": "^5.10.15",
+    "@mui/material": "^5.10.15",
+    "@mui/x-data-grid": "^5.17.13",
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "axios": "^1.2.0",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.5",
+    "eslint-plugin-react-hooks": "^5.0.0-next-de7d1c907-20221223",
+    "filesize": "^10.0.6",
+    "loadash": "^1.0.0",
+    "lodash": "^4.17.21",
+    "next": "13.0.5",
+    "nookies": "^2.5.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.41.0",
+    "typescript": "4.9.3"
+  },
+  "devDependencies": {
+    "@types/cookie": "^0.5.1",
+    "@types/lodash": "^4.14.191"
+  }
+}
