@@ -8,7 +8,6 @@ import logo from "../assets/logo.png";
 import { AuthContext } from '../context/AuthContext';
 
 import PersonIcon from '@mui/icons-material/Person';
-// import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { FormControl, Grid, IconButton, InputAdornment, Card, CardActions, CardContent, Button, TextField, Typography } from '@mui/material';
 
