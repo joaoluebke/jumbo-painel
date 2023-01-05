@@ -1,22 +1,17 @@
 import * as React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-import { FormControl, Grid, IconButton, InputAdornment } from '@mui/material';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Visibility from '@mui/icons-material/visibility';
-import PersonIcon from '@mui/icons-material/Person';
 import { useForm } from 'react-hook-form';
+import { makeStyles } from '@material-ui/core/styles';
 
 import logo from "../assets/logo.png";
 import { AuthContext } from '../context/AuthContext';
+
+import PersonIcon from '@mui/icons-material/Person';
+// import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { FormControl, Grid, IconButton, InputAdornment, Card, CardActions, CardContent, Button, TextField, Typography } from '@mui/material';
+
 
 const useStyles = makeStyles(() => ({
     card: {
@@ -130,7 +125,7 @@ export default function Home() {
                                                         onClick={handleClickShowPassword}
                                                         onMouseDown={handleMouseDownPassword}
                                                     >
-                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        {showPassword ? <VisibilityOff color='error'/> : <VisibilityOff/>}
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),
