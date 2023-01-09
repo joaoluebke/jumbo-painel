@@ -5,6 +5,7 @@ const { "jumbo-token": token } = parseCookies();
 
 export const api = axios.create({
   baseURL: 'https://15.228.222.52:3333',
+  //baseURL: 'https://15.228.222.52:3333',
 });
 
 if (token) {
