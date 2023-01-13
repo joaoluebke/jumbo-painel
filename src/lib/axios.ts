@@ -4,7 +4,7 @@ import { parseCookies } from "nookies";
 const { "jumbo-token": token } = parseCookies();
 
 export const api = axios.create({
-  baseURL: 'https://15.228.222.52:3333',
+  baseURL: 'https://api.jumbo.co.ao:3333',
   headers: {
     "Access-Control-Allow-Origin": "*"
   }

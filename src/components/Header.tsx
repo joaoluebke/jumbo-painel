@@ -91,7 +91,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
             '& .MuiDrawer-paper': closedMixin(theme),
         }),
     }),
-);
+); 
 
 export default function Header() {
     const theme = useTheme();

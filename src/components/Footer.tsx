@@ -1,7 +1,6 @@
+import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
-
 const useStyles = makeStyles(() => ({
     footer: {
         width: '100%',
@@ -10,7 +9,7 @@ const useStyles = makeStyles(() => ({
         bottom: 0,
         position: 'fixed'  
     },
-})); 
+}));  
 export default function Footer() {
     const classes = useStyles();
     return (

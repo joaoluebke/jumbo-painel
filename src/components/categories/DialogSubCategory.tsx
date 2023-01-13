@@ -111,7 +111,7 @@ export default function DialogSubCategory({ category, modalSubcategory, setModal
     }
 
     const getSubCategoryList = useCallback(async () => {
-        let arr = [];
+        let arr = []; 
         try {
             const response = await api.get('/category/' + categoryId + '/subcategories');
             arr = response.data.subcategory;

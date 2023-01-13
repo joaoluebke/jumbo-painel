@@ -88,12 +88,12 @@ export default function Categories() {
 
     React.useEffect(() => {
         getCategories();
-    }, [category])
+    }, [category]) 
 
-    return (
+    return ( 
         <Box >
             <Header />
-            <Toast msg={msg} duration={3000} type={typeToast} openToast={openToast} setOpenToast={setOpenToast} categoryId={categoryId} />
+            <Toast msg={msg} duration={3000} type={typeToast} openToast={openToast} setOpenToast={setOpenToast} categoryId={categoryId}  />
 
             <Box p={15}>
                 <DialogSubCategory category={category} modalSubcategory={modalSubcategory} setModalSubcategory={setModalSubcategory} setCategory={setCategory} categoryId={categoryId} />
@@ -105,7 +105,7 @@ export default function Categories() {
                     rowsPerPageOptions={[5]}
                 />
             </Box>
-            <DialogCategory category={category} isOpen={modalOpen} setIsOpen={setModalOpen} setCategory={setCategory} categoryId={categoryId} />
+            <DialogCategory category={category} isOpen={modalOpen} setIsOpen={setModalOpen} setCategory={setCategory} categoryId={categoryId} setCategoryId={setCategoryId}/>
             <Footer />
         </Box>
     )

@@ -48,23 +48,25 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DialogCategory({ isOpen, setIsOpen, category, setCategory, categoryId }: any) {
+export default function DialogCategory({ isOpen, setIsOpen, category, setCategory, categoryId, setCategoryId }: any) {
     const classes = useStyles();
     const { register, handleSubmit } = useForm();
     const [msg, setMsg] = React.useState<string>("")
     const [typeToast, setTypeToast] = React.useState<string>("")
     const [openToast, setOpenToast] = React.useState(false)
+
     const handleClickOpen = () => {
         setIsOpen(true);
     };
 
     const handleClose = () => {
-        setIsOpen(false);
+        setCategoryId("");
+        setIsOpen(false);         
     };
 
     async function createCategory(data: any) {
         let response;
-        if (categoryId) {
+        if (categoryId) { 
             response = api.put('/categories/' + categoryId, { title: data.title });
         } else {
             response = api.post('/categories', { title: data.title });
@@ -75,7 +77,8 @@ export default function DialogCategory({ isOpen, setIsOpen, category, setCategor
             setMsg("Categoria editada com sucesso");
             setTypeToast("info");
             setOpenToast(true);
-            handleClose()
+            setCategoryId("");
+            handleClose();
         } catch (error) {
             setMsg("Erro ao editar categoria");
             setTypeToast("error");

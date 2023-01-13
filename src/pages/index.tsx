@@ -11,8 +11,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { FormControl, Grid, IconButton, InputAdornment, Card, CardActions, CardContent, Button, TextField, Typography } from '@mui/material';
 
-
-const useStyles = makeStyles(() => ({
+ 
+const useStyles = makeStyles(() => ({ 
     card: {
         background: '#fff'
     },
@@ -21,10 +21,10 @@ const useStyles = makeStyles(() => ({
     },
     main: {
         width: '100%',
-        display: 'flex',
+        display: 'flex', 
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center', 
         height: '100vh',
     },
     button: {
@@ -91,7 +91,7 @@ export default function Home() {
 
                             <Grid container spacing={2}>
                                 <Grid item lg={12}>
-                                    <TextField id="standard" label="Email do usuário"
+                                    <TextField id="email" label="Email do usuário"
                                         {...register('email')}
                                         className={classes.textFieldFocused}
                                         variant="standard" sx={{
@@ -109,7 +109,7 @@ export default function Home() {
                                     />
                                 </Grid>
                                 <Grid item lg={12}>
-                                    <TextField id="standard" label="Senha"
+                                    <TextField id="senha" label="Senha"
                                         variant="standard" sx={{
                                             width: '100%'
                                         }}

@@ -13,7 +13,7 @@ import ModalUpload from '../../../components/ModalUpload';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ArchiveIcon from '@mui/icons-material/Archive';
+import ArchiveIcon from '@mui/icons-material/Archive'; 
 
 import { IconButton, Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';

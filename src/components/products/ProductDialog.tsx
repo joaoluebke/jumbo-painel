@@ -75,6 +75,7 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
     setIsOpen(false);
   };
 
+
   const handleChange = (event: SelectChangeEvent) => {
     setSubCategory(event.target.value as string);
   };
@@ -89,6 +90,14 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
     }
   }
 
+  function selectPromotion() {
+    if (promotion === false) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   function transformPromotion(value: string) {
     if (value === 'false') {
       return false;
@@ -97,9 +106,12 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
     }
   }
 
+  const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPromotion(event.target.checked);
+  }
+
   async function createProduct(data: any) {
     let response;
-
     if (productId) {
       response = api.put(`/products/${productId}`, {
         title: data.title || product.title,
@@ -259,7 +271,7 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
                 </Grid>
                 <Grid item lg={12}>
                   <FormControlLabel control={
-                    <Switch checked={promotion} value={promotion} {...register('promotion')} onChange={(e) => changeValue(e)} />
+                    <Switch checked={promotion} value={promotion} {...register('promotion')} onChange={(e) => { changeValue(e), handleChangeSwitch(e) }} />
                   } label="Promoção" />
                 </Grid>
                 <Grid item lg={12}>

@@ -9,7 +9,7 @@ import { api } from '../lib/axios';
 import { useForm } from 'react-hook-form';
 import Toast from './Toast';
 import CloseIcon from '@mui/icons-material/Close';
-import Image from 'next/image';
+import Image from 'next/image'; 
 
 
 const style = {
