@@ -6,7 +6,8 @@ const { "jumbo-token": token } = parseCookies();
 export const api = axios.create({
   baseURL: 'https://api.jumbo.co.ao:3333',
   headers: {
-    "Access-Control-Allow-Origin": "*"
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Origin, X-Request-Width, Content-Type, Accept"
   }
 });
 
