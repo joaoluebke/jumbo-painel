@@ -10,9 +10,10 @@ import { AuthContext } from '../context/AuthContext';
 import PersonIcon from '@mui/icons-material/Person';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { FormControl, Grid, IconButton, InputAdornment, Card, CardActions, CardContent, Button, TextField, Typography } from '@mui/material';
+import Toast from '../components/Toast';
 
- 
-const useStyles = makeStyles(() => ({ 
+
+const useStyles = makeStyles(() => ({
     card: {
         background: '#fff'
     },
@@ -21,10 +22,10 @@ const useStyles = makeStyles(() => ({
     },
     main: {
         width: '100%',
-        display: 'flex', 
+        display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center', 
+        alignItems: 'center',
         height: '100vh',
     },
     button: {
@@ -51,6 +52,10 @@ export default function Home() {
     const { register, handleSubmit } = useForm();
     const [showPassword, setShowPassword] = React.useState(Boolean);
 
+    const [msg, setMsg] = React.useState<string>("")
+    const [typeToast, setTypeToast] = React.useState<string>("")
+    const [openToast, setOpenToast] = React.useState(false)
+
     const { signIn } = React.useContext(AuthContext);
 
     function handleClickShowPassword() {
@@ -66,6 +71,9 @@ export default function Home() {
             await signIn(data);
         } catch (error) {
             console.log(error);
+            setMsg("Credênciais inválidas");
+            setTypeToast("error");
+            setOpenToast(true);
         }
     }
 
@@ -78,6 +86,7 @@ export default function Home() {
             </Head>
 
             <main className={classes.main}>
+                <Toast msg={msg} duration={3000} type={typeToast} openToast={openToast} setOpenToast={setOpenToast} />
                 <Card sx={{ maxWidth: 375, minHeight: 250 }} >
                     <FormControl sx={{ width: '100%' }}>
                         <CardContent className={classes.card}>
@@ -124,7 +133,7 @@ export default function Home() {
                                                         onClick={handleClickShowPassword}
                                                         onMouseDown={handleMouseDownPassword}
                                                     >
-                                                        {showPassword ? <VisibilityOff color='error'/> : <VisibilityOff/>}
+                                                        {showPassword ? <VisibilityOff color='error' /> : <VisibilityOff />}
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),

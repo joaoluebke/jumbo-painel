@@ -68,7 +68,7 @@ const Transition = React.forwardRef(function Transition(
 export default function DialogSubCategory({ category, modalSubcategory, setModalSubcategory, setCategory, categoryId }: any) {
     const classes = useStyles();
     const [msg, setMsg] = useState<string>("");
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const [title, setTitle] = useState<string>("");
     const [openToast, setOpenToast] = useState(false);
     const [typeToast, setTypeToast] = useState<string>("");
@@ -87,7 +87,7 @@ export default function DialogSubCategory({ category, modalSubcategory, setModal
             setMsg("Subcategoria salva com sucesso");
             setTypeToast("success");
             setOpenToast(true);
-            setTitle('');
+            reset({ title: '' })
             getSubCategoryList();
         } catch (error) {
             setMsg("Erro ao salvar Subcategoria");
@@ -111,7 +111,7 @@ export default function DialogSubCategory({ category, modalSubcategory, setModal
     }
 
     const getSubCategoryList = useCallback(async () => {
-        let arr = []; 
+        let arr = [];
         try {
             const response = await api.get('/category/' + categoryId + '/subcategories');
             arr = response.data.subcategory;

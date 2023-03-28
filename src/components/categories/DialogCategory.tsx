@@ -50,23 +50,24 @@ const Transition = React.forwardRef(function Transition(
 
 export default function DialogCategory({ isOpen, setIsOpen, category, setCategory, categoryId, setCategoryId }: any) {
     const classes = useStyles();
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const [msg, setMsg] = React.useState<string>("")
     const [typeToast, setTypeToast] = React.useState<string>("")
     const [openToast, setOpenToast] = React.useState(false)
 
     const handleClickOpen = () => {
+        setCategory({ title: '' });
         setIsOpen(true);
     };
 
     const handleClose = () => {
         setCategoryId("");
-        setIsOpen(false);         
+        setIsOpen(false);
     };
 
     async function createCategory(data: any) {
         let response;
-        if (categoryId) { 
+        if (categoryId) {
             response = api.put('/categories/' + categoryId, { title: data.title });
         } else {
             response = api.post('/categories', { title: data.title });
@@ -123,7 +124,7 @@ export default function DialogCategory({ isOpen, setIsOpen, category, setCategor
                         }}>
                             <Grid item lg={12}>
                                 <TextField id="title" label="Nome"
-                                    value={category.title ? category.title : null}
+                                    value={category.title ? category.title : ""}
                                     className={classes.textFieldFocused}
                                     {...register('title')}
                                     onChange={(e) => { changeValue(e) }}
@@ -139,7 +140,7 @@ export default function DialogCategory({ isOpen, setIsOpen, category, setCategor
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose} variant='contained' color="error">Fechar</Button>
-                        <Button size="medium" variant='contained' className={classes.button} type="submit" onClick={handleSubmit(createCategory)}>Entrar</Button>
+                        <Button size="medium" variant='contained' className={classes.button} type="submit" onClick={handleSubmit(createCategory)}>Cadastrar</Button>
                     </DialogActions>
                 </Box>
             </Dialog>

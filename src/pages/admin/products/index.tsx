@@ -13,7 +13,7 @@ import ModalUpload from '../../../components/ModalUpload';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ArchiveIcon from '@mui/icons-material/Archive'; 
+import ArchiveIcon from '@mui/icons-material/Archive';
 
 import { IconButton, Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -40,6 +40,7 @@ export default function Products() {
         try {
             const response = await api.get('/products');
             const listProducts = response.data.products;
+            console.log(response.data.products)
             setProducts(listProducts);
         } catch (error) {
             setMsg("Não foi possível carregar");
@@ -74,10 +75,21 @@ export default function Products() {
         setModalUpload(true);
     }
 
+    function transformPromotion(produto: any) {
+        if (produto.promotion === true) return 'Sim'
+        else return 'Não'
+    }
+
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', align: 'left', width: 205 },
         { field: 'title', headerName: 'Nome', align: 'left', width: 205 },
         { field: 'price', headerName: 'Preço', align: 'left', width: 205 },
+        {
+            field: 'promotion', headerName: 'Promoção', align: 'left', width: 205,
+            renderCell(params) {
+                return (<>{transformPromotion(params.row)}</>)
+            },
+        },
         {
             field: 'urlImg', headerName: 'Imagem', align: 'left', width: 205,
             renderCell: (params) => {
@@ -121,7 +133,7 @@ export default function Products() {
 
     React.useEffect(() => {
         getProducts();
-    }, [product])
+    }, [productId])
 
     return (
         <Box>
@@ -137,7 +149,7 @@ export default function Products() {
                     rowsPerPageOptions={[10]}
                 />
             </Box>
-            <ProductDialog product={product} isOpen={modalOpen} setIsOpen={setModalOpen} setProduct={setProduct} productId={productId} />
+            <ProductDialog product={product} isOpen={modalOpen} setIsOpen={setModalOpen} setProduct={setProduct} productId={productId} setProductId={setProductId} />
             <Footer />
         </Box>
     )

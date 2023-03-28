@@ -51,7 +51,7 @@ export default function Index() {
                         <CardContent>
                             <Typography variant="h5" component="div" sx={{
                                 color: 'white'
-                            }}>
+                            }}> 
                                 Produtos Cadastrados
                             </Typography>
                             <Typography variant="subtitle1" mt={1.5} color="text.secondary"

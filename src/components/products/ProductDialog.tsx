@@ -56,9 +56,9 @@ type subCategoryType = {
   title: string
 }
 
-export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, productId }: any) {
+export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, productId, setProductId }: any) {
   const classes = useStyles();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [subCategoryList, setSubCategoryList] = React.useState([]);
   const [subCategory, setSubCategory] = React.useState("");
 
@@ -72,6 +72,15 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
   };
 
   const handleClose = () => {
+    setProduct({});
+    reset({
+      title: '',
+      price: '',
+      promotionPrice: '',
+      subCategoryId: '',
+      promotion: false,
+      description: '',
+    });
     setIsOpen(false);
   };
 
@@ -90,18 +99,10 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
     }
   }
 
-  function selectPromotion() {
-    if (promotion === false) {
-      return true;
-    } else {
+  function transformPromotion(value: any) {
+    if (value === 'false' || value === false) {
       return false;
-    }
-  }
-
-  function transformPromotion(value: string) {
-    if (value === 'false') {
-      return false;
-    } else {
+    } else if (value === 'true' || value === true) {
       return true;
     }
   }
@@ -112,11 +113,12 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
 
   async function createProduct(data: any) {
     let response;
+    data.promotion = transformPromotion(data.promotion);
     if (productId) {
       response = api.put(`/products/${productId}`, {
         title: data.title || product.title,
         description: data.description || product.description,
-        promotion: transformPromotion(data.promotion) || transformPromotion(product.promotion),
+        promotion: data.promotion,
         price: parseInt(data.price) || parseInt(product.price),
         promotionPrice: parseInt(data.promotionPrice) || parseInt(product.promotionPrice),
         subCategoryId: data.subCategoryId || product.subCategoryId,
@@ -126,7 +128,7 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
       response = api.post('/products', {
         title: data.title,
         description: data.description,
-        promotion: transformPromotion(data.promotion),
+        promotion: data.promotion,
         price: parseInt(data.price),
         promotionPrice: parseInt(data.promotionPrice),
         subCategoryId: data.subCategoryId,
@@ -137,10 +139,19 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
 
     try {
       const res = await response;
-      setMsg("Produto salvo com sucesso" + res.data.title);
+      console.log('data', res.data);
+      setMsg("Produto salvo com sucesso");
       setTypeToast("success");
       setOpenToast(true);
-      setProduct({});
+      reset({
+        title: '',
+        price: '',
+        promotionPrice: '',
+        subCategoryId: '',
+        promotion: false,
+        description: '',
+      });
+      setProductId(0)
       handleClose();
     } catch (error) {
       setMsg("Erro ao salvar produto");
