@@ -29,7 +29,6 @@ export function AuthProvider({ children }: any) {
     const isAuthenticated = !!user;
 
     async function signIn({ email, password }: SignInData) {
-        let msg = "";
         try {
             const response = await api.post('/login', { email: email, password: password });
 
