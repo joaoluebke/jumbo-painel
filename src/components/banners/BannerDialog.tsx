@@ -50,7 +50,7 @@ const Transition = React.forwardRef(function Transition(
 
 export default function BannerDialog({ isOpen, setIsOpen, banner, setBanner, bannerId, setBannerId, ruleId }: any) {
   const classes = useStyles();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const [msg, setMsg] = React.useState<string>("")
   const [typeToast, setTypeToast] = React.useState<string>("")
   const [openToast, setOpenToast] = React.useState(false)
@@ -66,6 +66,7 @@ export default function BannerDialog({ isOpen, setIsOpen, banner, setBanner, ban
   };
 
   async function createBanner(data: any) {
+
     if (ruleId !== 1) {
       setMsg("Usuário sem permissão");
       setTypeToast("error");
@@ -99,10 +100,6 @@ export default function BannerDialog({ isOpen, setIsOpen, banner, setBanner, ban
       [event.target.name]: event.target.value
     })
   }
-
-  React.useEffect(() => {
-  }, [banner])
-
   return (
     <div>
       <Toast msg={msg} duration={3000} type={typeToast} openToast={openToast} setOpenToast={setOpenToast} />
