@@ -19,9 +19,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import Avatar from '@mui/material/Avatar';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import logo from "../assets/logo.png";
-
-// import { AuthContext } from '../context/AuthContext';
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -96,8 +94,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Header() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
-    // const context = React.useContext(AuthContext);
-
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -162,6 +158,7 @@ export default function Header() {
                             <ListItemText primary={"Meu Perfil"} sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem> */}
+                    
                     <ListItem disablePadding sx={{ display: 'block' }} >
                         <ListItemButton
                             sx={{
@@ -181,6 +178,28 @@ export default function Header() {
                                 <DashboardIcon />
                             </ListItemIcon>
                             <ListItemText primary={"Dashboard"} sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+                    </ListItem>
+
+                    <ListItem disablePadding sx={{ display: 'block' }} >
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                            href="/admin/banners"
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <ViewCarouselIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={"Banners"} sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding sx={{ display: 'block' }}>

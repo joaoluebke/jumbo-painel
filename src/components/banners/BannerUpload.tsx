@@ -5,11 +5,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Fab, Grid } from '@mui/material';
-import { api } from '../lib/axios';
+import { api } from '../../lib/axios';
 import { useForm } from 'react-hook-form';
-import Toast from './Toast';
+import Toast from '../../components/Toast';
 import CloseIcon from '@mui/icons-material/Close';
-import Image from 'next/image'; 
+import Image from 'next/image';
 
 
 const style = {
@@ -24,7 +24,7 @@ const style = {
     p: 4,
 };
 
-export default function ModalUpload({ modalUpload, setModalUpload, product, setProduct, productImg, setProductImg, ruleId }: any) {
+export default function ModalUpload({ modalUpload, setModalUpload, banner, setBanner, bannerImg, setBannerImg, ruleId }: any) {
     const { register, handleSubmit } = useForm();
     const [msg, setMsg] = useState<string>("");
     const [openToast, setOpenToast] = useState(false)
@@ -38,11 +38,12 @@ export default function ModalUpload({ modalUpload, setModalUpload, product, setP
 
     const handleClose = () => {
         setModalUpload(false);
-        setProduct({});
+        setBanner({});
         setCardFile("");
     };
 
     async function uploadImage() {
+
         if (ruleId !== 1) {
             setMsg("Usuário sem permissão");
             setTypeToast("error");
@@ -53,8 +54,8 @@ export default function ModalUpload({ modalUpload, setModalUpload, product, setP
         const form = new FormData();
         form.append("file", cardFile);
         form.append("filename", cardFile.name);
-        form.append("id", product.id);
-        form.append("type", "product");
+        form.append("id", banner.id);
+        form.append("type", "banner");
         try {
             await api.post('/upload-file-aws',
                 form, {
@@ -75,11 +76,11 @@ export default function ModalUpload({ modalUpload, setModalUpload, product, setP
 
     async function deleteImg(filename: string) {
         try {
-            await api.delete(`/delete-file/${product.id}/${filename.substring(41)}`);
+            await api.delete(`/delete-file/${banner.id}/${filename.substring(41)}`);
             setMsg("Imagem deletada com sucesso");
             setTypeToast("success");
             setOpenToast(true);
-            setProductImg("");
+            setBannerImg("");
             setDisableButton(false);
         } catch (error) {
             console.log(error);
@@ -90,19 +91,19 @@ export default function ModalUpload({ modalUpload, setModalUpload, product, setP
     }
 
     function ImageShow() {
-        if (productImg != "") {
+        if (bannerImg != "") {
             return (
                 <div>
-                    {productImg ? (<>
+                    {bannerImg ? (<>
                         <Image
-                            src={productImg}
+                            src={bannerImg}
                             alt={'img'}
                             width='530'
                             height='300'
                             loading="lazy" />
                         <Fab
                             {...register('product.urlImg')}
-                            onClick={() => deleteImg(productImg)}
+                            onClick={() => deleteImg(bannerImg)}
                             color="primary" aria-label="add" sx={{
                                 position: 'fixed',
                                 width: '40px',
@@ -124,10 +125,10 @@ export default function ModalUpload({ modalUpload, setModalUpload, product, setP
     }
 
     useEffect(() => {
-        if (productImg == "") {
+        if (bannerImg == "") {
             setDisableButton(false);
         }
-    }, [product, ruleId])
+    }, [banner])
 
     return (
         <div>

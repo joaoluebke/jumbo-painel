@@ -56,7 +56,7 @@ type subCategoryType = {
   title: string
 }
 
-export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, productId, setProductId }: any) {
+export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, productId, setProductId, ruleId }: any) {
   const classes = useStyles();
   const { register, handleSubmit, reset } = useForm();
   const [subCategoryList, setSubCategoryList] = React.useState([]);
@@ -112,8 +112,19 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
   }
 
   async function createProduct(data: any) {
+    
+    if (ruleId !== 1) {
+      setMsg("Usuário sem permissão");
+      setTypeToast("error");
+      setOpenToast(true);
+      return;
+    }
+
     let response;
     data.promotion = transformPromotion(data.promotion);
+
+    if (data.promotion == false || product.promotion == false) { data.promotionPrice = '0'; data.productPrice = '0'; }
+
     if (productId) {
       response = api.put(`/products/${productId}`, {
         title: data.title || product.title,
@@ -242,6 +253,7 @@ export default function ProductDialog({ isOpen, setIsOpen, product, setProduct, 
                 <Grid item lg={6}>
                   <TextField id="promotionPrice" label="Preço promocional"
                     {...register('promotionPrice')}
+                    onChange={(e) => { changeValue(e) }}
                     className={classes.textFieldFocused}
                     value={product.promotionPrice}
                     variant="standard" sx={{

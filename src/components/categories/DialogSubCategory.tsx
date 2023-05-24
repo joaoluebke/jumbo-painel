@@ -65,7 +65,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DialogSubCategory({ category, modalSubcategory, setModalSubcategory, setCategory, categoryId }: any) {
+export default function DialogSubCategory({ category, modalSubcategory, setModalSubcategory, setCategory, categoryId, ruleId }: any) {
     const classes = useStyles();
     const [msg, setMsg] = useState<string>("");
     const { register, handleSubmit, reset } = useForm();
@@ -82,6 +82,13 @@ export default function DialogSubCategory({ category, modalSubcategory, setModal
     };
 
     async function createSubCategory(data: any) {
+        if (ruleId !== 1) {
+            setMsg("Usuário sem permissão");
+            setTypeToast("error");
+            setOpenToast(true);
+            return;
+        }
+
         try {
             await api.post('/subcategories', { title: data.title, categoryId: category.id });
             setMsg("Subcategoria salva com sucesso");
@@ -97,6 +104,13 @@ export default function DialogSubCategory({ category, modalSubcategory, setModal
     }
 
     async function deleteItem(id: number) {
+        if (ruleId !== 1) {
+            setMsg("Usuário sem permissão");
+            setTypeToast("error");
+            setOpenToast(true);
+            return;
+        }
+
         try {
             await api.delete('/subcategories/' + id);
             setMsg("Subcategoria deletada com sucesso");
@@ -126,7 +140,7 @@ export default function DialogSubCategory({ category, modalSubcategory, setModal
         if (categoryId) {
             getSubCategoryList();
         }
-    }, [categoryId]);
+    }, [categoryId, ruleId]);
 
     return (
         <div>

@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { Card, CardActions, CardContent, Button, Typography } from '@mui/material';
 import { api } from '../../lib/axios';
+import { AuthContext, AuthProvider } from '../../context/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -24,9 +25,28 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+type User = {
+    name: string,
+    email: string,
+    id: number,
+    ruleId: number
+}
+
 export default function Index() {
     const classes = useStyles();
+    const context = React.useContext(AuthContext);
+
     const [qtdProdutos, setQtdProdutos] = useState(Number);
+
+    async function getMe() {
+        try {
+            const response = await api.get('/me');
+            context.user = response.data.userRestruturado as User;
+        } catch (error) {
+            console.log(error);
+        }
+        console.log('user', context.user);
+    }
 
     async function getQtdProducts() {
         try {
@@ -39,32 +59,35 @@ export default function Index() {
     }
 
     useEffect(() => {
+        getMe();
         getQtdProducts();
     })
 
     return (
-        <Box>
-            <Header />
-            <Grid container spacing={2} p={15} className={classes.main}>
-                <Grid item>
-                    <Card sx={{ minWidth: 275 }} className={classes.card}>
-                        <CardContent>
-                            <Typography variant="h5" component="div" sx={{
-                                color: 'white'
-                            }}> 
-                                Produtos Cadastrados
-                            </Typography>
-                            <Typography variant="subtitle1" mt={1.5} color="text.secondary"
-                                sx={{
+        <AuthProvider AuthContext={AuthContext}>
+            <Box>
+                <Header /> 
+                <Grid container spacing={2} p={15} className={classes.main}>
+                    <Grid item>
+                        <Card sx={{ minWidth: 275 }} className={classes.card}>
+                            <CardContent>
+                                <Typography variant="h5" component="div" sx={{
                                     color: 'white'
                                 }}>
-                                {qtdProdutos}
-                            </Typography>
-                        </CardContent>
-                    </Card>
+                                    Produtos Cadastrados
+                                </Typography>
+                                <Typography variant="subtitle1" mt={1.5} color="text.secondary"
+                                    sx={{
+                                        color: 'white'
+                                    }}>
+                                    {qtdProdutos}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
                 </Grid>
-            </Grid>
-            <Footer />
-        </Box>
+                <Footer />
+            </Box>
+        </AuthProvider>
     );
 } 

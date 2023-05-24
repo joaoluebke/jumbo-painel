@@ -16,6 +16,9 @@ import { parseCookies } from 'nookies';
 import Toast from '../../../components/Toast';
 
 export default function Categories() {
+
+    const [ruleId, setRuleId] = React.useState();
+
     const [categories, setCategories] = React.useState([])
     const [modalOpen, setModalOpen] = React.useState(false);
     const [modalSubcategory, setModalSubcategory] = React.useState(false);
@@ -24,6 +27,17 @@ export default function Categories() {
     const [typeToast, setTypeToast] = React.useState<string>("")
     const [openToast, setOpenToast] = React.useState(false)
     const [categoryId, setCategoryId] = React.useState("");
+
+    async function getMe() {
+        try {
+            const response = await api.get('/me');
+            setRuleId(response.data.userRestruturado.ruleId);
+            console.log(ruleId)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     async function getCategories() {
         try {
@@ -88,6 +102,7 @@ export default function Categories() {
 
     React.useEffect(() => {
         getCategories();
+        getMe();
     }, [category]) 
 
     return ( 
@@ -96,7 +111,7 @@ export default function Categories() {
             <Toast msg={msg} duration={3000} type={typeToast} openToast={openToast} setOpenToast={setOpenToast} categoryId={categoryId}  />
 
             <Box p={15}>
-                <DialogSubCategory category={category} modalSubcategory={modalSubcategory} setModalSubcategory={setModalSubcategory} setCategory={setCategory} categoryId={categoryId} />
+                <DialogSubCategory ruleId={ruleId} category={category} modalSubcategory={modalSubcategory} setModalSubcategory={setModalSubcategory} setCategory={setCategory} categoryId={categoryId} />
                 <DataGrid
                     sx={{ minWidth: 650, minHeight: 371, mt: 10 }}
                     rows={categories}
@@ -105,7 +120,7 @@ export default function Categories() {
                     rowsPerPageOptions={[5]}
                 />
             </Box>
-            <DialogCategory category={category} isOpen={modalOpen} setIsOpen={setModalOpen} setCategory={setCategory} categoryId={categoryId} setCategoryId={setCategoryId}/>
+            <DialogCategory ruleId={ruleId} category={category} isOpen={modalOpen} setIsOpen={setModalOpen} setCategory={setCategory} categoryId={categoryId} setCategoryId={setCategoryId}/>
             <Footer />
         </Box>
     )

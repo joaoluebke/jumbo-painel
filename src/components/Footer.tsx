@@ -16,6 +16,6 @@ export default function Footer() {
         <footer className={classes.footer}>
             <Typography sx={{ textAlign: 'center', color: '#fff', }} variant="subtitle1" component="div">
                 Copyright © 2022 Zanecom - Todos direitos reservados 
-            </Typography>
+            </Typography> 
         </footer>)
 }

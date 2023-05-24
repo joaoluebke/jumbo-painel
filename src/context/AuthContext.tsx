@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { createContext } from "react";
-import { setCookie, parseCookies } from "nookies"
+import { setCookie } from "nookies"
 import Router from "next/router";
 
 import { api } from "../lib/axios";
@@ -15,6 +15,7 @@ type User = {
     id: number;
     name: string;
     email: string;
+    ruleId: number;
 }
 
 type SignInData = {
@@ -31,14 +32,14 @@ export function AuthProvider({ children }: any) {
     async function signIn({ email, password }: SignInData) {
         try {
             const response = await api.post('/login', { email: email, password: password });
-
+            
             setCookie(undefined, 'jumbo-token', response.data.token, {
                 maxAge: 60 * 60 * 1, //1 hora,
             })
 
             setUser(response.data.userRestruturado);
             api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`;
-
+            console.log('user: ', user);
             Router.push("/admin/products");
         } catch (error) {
             throw new Error("Credenciais inválidas");

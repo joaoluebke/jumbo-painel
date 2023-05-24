@@ -3,12 +3,12 @@ import Image from 'next/image';
 import { parseCookies } from 'nookies';
 import { api } from '../../../lib/axios';
 import { GetServerSideProps } from 'next';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Toast from '../../../components/Toast';
 import Footer from '../../../components/Footer';
 import Header from '../../../components/Header';
-import ProductDialog from '../../../components/products/ProductDialog';
-import ModalUpload from '../../../components/ModalUpload';
+import BannerDialog from '../../../components/banners/BannerDialog';
+import BannerUpload from '../../../components/banners/BannerUpload';
 
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
@@ -17,18 +17,19 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 
 import { IconButton, Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { AuthContext, AuthProvider } from '../../../context/AuthContext';
 
-type typeProduct = {
+type typeBanner = {
     id: number,
     urlImg: string,
 }
 
-export default function Products() {
+export default function Banners() {
 
     const [ruleId, setRuleId] = useState();
 
-    const [product, setProduct] = useState({});
-    const [products, setProducts] = useState([])
+    const [banner, setBanner] = useState({});
+    const [banners, setBanners] = useState([])
     const [modalOpen, setModalOpen] = useState(false);
     const [modalUpload, setModalUpload] = useState(false);
 
@@ -36,8 +37,8 @@ export default function Products() {
     const [typeToast, setTypeToast] = useState<string>("")
     const [openToast, setOpenToast] = useState(false)
 
-    const [productImg, setProductImg] = useState("");
-    const [productId, setProductId] = useState<string>("");
+    const [bannerImg, setBannerImg] = useState("");
+    const [bannerId, setBannerId] = useState<string>("");
 
     async function getMe() {
         try {
@@ -49,12 +50,12 @@ export default function Products() {
         }
     }
 
-    async function getProducts() {
+    async function getBanners() {
         try {
-            const response = await api.get('/products');
-            const listProducts = response.data.products;
-            console.log(response.data.products)
-            setProducts(listProducts);
+            const response = await api.get('/banners');
+            const listBanners = response.data.banners;
+            console.log(response.data.banners)
+            setBanners(listBanners);
         } catch (error) {
             setMsg("Não foi possível carregar");
             setTypeToast("error");
@@ -62,55 +63,45 @@ export default function Products() {
         }
     }
 
-    function editProduct(data: any) {
-        setProduct(data);
-        setProductId(data.id);
+    function editBanner(data: any) {
+        setBanner(data);
+        setBannerId(data.id);
         setModalOpen(true);
     }
 
-    async function deleteProduct(item: typeProduct) {
+    async function deleteBanner(item: typeBanner) {
+
         if (ruleId !== 1) {
             setMsg("Usuário sem permissão");
             setTypeToast("error");
             setOpenToast(true);
             return;
         }
+
         try {
-            await api.delete('/products/' + item.id);
-            setMsg("Produto deletado com sucesso");
+            await api.delete('/banners/' + item.id);
+            setMsg("Banner deletado com sucesso");
             setTypeToast("success");
             setOpenToast(true);
-            getProducts();
+            getBanners();
         } catch (error) {
-            setMsg("Erro ao deletar produto");
+            setMsg("Erro ao deletar banner");
             setTypeToast("error");
             setOpenToast(true);
         }
     }
 
-    function photoProduct(item: typeProduct) {
-        setProduct(item);
-        setProductImg(item.urlImg);
+    function photoBanner(item: typeBanner): void {
+        setBanner(item);
+        setBannerImg(item.urlImg);
         setModalUpload(true);
     }
 
-    function transformPromotion(produto: any) {
-        if (produto.promotion === true) return 'Sim'
-        else return 'Não'
-    }
-
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', align: 'left', width: 175 },
-        { field: 'title', headerName: 'Nome', align: 'left', width: 175 },
-        { field: 'price', headerName: 'Preço', align: 'left', width: 175 },
+        { field: 'id', headerName: 'ID', align: 'left', width: 350 },
+        { field: 'title', headerName: 'Nome', align: 'left', width: 350 },
         {
-            field: 'promotion', headerName: 'Promoção', align: 'left', width: 175,
-            renderCell(params) {
-                return (<>{transformPromotion(params.row)}</>)
-            },
-        },
-        {
-            field: 'urlImg', headerName: 'Imagem', align: 'left', width: 175,
+            field: 'urlImg', headerName: 'Imagem', align: 'left', width: 350,
             renderCell: (params) => {
                 return (
                     params.row.urlImg == "" ? <CloseIcon /> : (<><Image
@@ -125,22 +116,18 @@ export default function Products() {
             },
         },
         {
-            field: 'description',
-            headerName: 'Descrição', align: 'left', width: 200
-        },
-        {
             field: 'actions',
-            headerName: 'Ações', align: 'left', width: 175,
+            headerName: 'Ações', align: 'left', width: 300,
             renderCell: (params) => {
                 return (
                     <Box>
-                        <IconButton color="primary" aria-label="editar" component="label" onClick={() => editProduct(params.row)}>
+                        <IconButton color="primary" aria-label="editar" component="label" onClick={() => editBanner(params.row)}>
                             <EditIcon />
                         </IconButton>
-                        <IconButton color="error" aria-label="deletar" component="label" onClick={() => deleteProduct(params.row)}>
+                        <IconButton color="error" aria-label="deletar" component="label" onClick={() => deleteBanner(params.row)}>
                             <DeleteIcon />
                         </IconButton>
-                        <IconButton color="inherit" aria-label="upload" component="label" onClick={() => photoProduct(params.row)}>
+                        <IconButton color="inherit" aria-label="upload" component="label" onClick={() => photoBanner(params.row)}>
                             <ArchiveIcon />
                         </IconButton>
                     </Box>
@@ -151,25 +138,25 @@ export default function Products() {
     ];
 
     React.useEffect(() => {
-        getProducts();
+        getBanners();
         getMe();
-    }, [productId, product, ruleId])
+    }, [bannerId, ruleId, banner])
 
     return (
         <Box>
             <Header />
             <Toast msg={msg} duration={3000} type={typeToast} openToast={openToast} setOpenToast={setOpenToast} />
-            <ModalUpload ruleId={ruleId} modalUpload={modalUpload} setModalUpload={setModalUpload} product={product} setProduct={setProduct} productImg={productImg} setProductImg />
+            <BannerUpload ruleId={ruleId} modalUpload={modalUpload} setModalUpload={setModalUpload} banner={banner} setBanner={setBanner} bannerImg={bannerImg} setBannerImg />
             <Box p={15}>
                 <DataGrid
                     sx={{ minWidth: 650, minHeight: 371, mt: 15 }}
-                    rows={products}
+                    rows={banners}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[10]}
                 />
             </Box>
-            <ProductDialog ruleId={ruleId} product={product} isOpen={modalOpen} setIsOpen={setModalOpen} setProduct={setProduct} productId={productId} setProductId={setProductId} />
+            <BannerDialog ruleId={ruleId} banner={banner} isOpen={modalOpen} setIsOpen={setModalOpen} setBanner={setBanner} bannerId={bannerId} setBannerId={setBannerId} />
             <Footer />
         </Box>
     )
@@ -177,7 +164,6 @@ export default function Products() {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const { ['jumbo-token']: token } = parseCookies(ctx);
-
     if (!token) {
         return {
             redirect: {

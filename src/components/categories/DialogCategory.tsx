@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DialogCategory({ isOpen, setIsOpen, category, setCategory, categoryId, setCategoryId }: any) {
+export default function DialogCategory({ isOpen, setIsOpen, category, setCategory, categoryId, setCategoryId, ruleId }: any) {
     const classes = useStyles();
     const { register, handleSubmit, reset } = useForm();
     const [msg, setMsg] = React.useState<string>("")
@@ -66,6 +66,13 @@ export default function DialogCategory({ isOpen, setIsOpen, category, setCategor
     };
 
     async function createCategory(data: any) {
+        if (ruleId !== 1) {
+            setMsg("Usuário sem permissão");
+            setTypeToast("error");
+            setOpenToast(true);
+            return;
+        }
+
         let response;
         if (categoryId) {
             response = api.put('/categories/' + categoryId, { title: data.title });
@@ -75,8 +82,8 @@ export default function DialogCategory({ isOpen, setIsOpen, category, setCategor
         try {
             const res = await response;
             setCategory(res.data as any);
-            setMsg("Categoria editada com sucesso");
-            setTypeToast("info");
+            setMsg("Categoria cadastrada com sucesso");
+            setTypeToast("success");
             setOpenToast(true);
             setCategoryId("");
             handleClose();
