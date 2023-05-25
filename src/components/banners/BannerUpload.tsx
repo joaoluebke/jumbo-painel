@@ -76,7 +76,11 @@ export default function ModalUpload({ modalUpload, setModalUpload, banner, setBa
 
     async function deleteImg(filename: string) {
         try {
-            await api.delete(`/delete-file/${banner.id}/${filename.substring(41)}`);
+            await api.delete(`/delete-file/${banner.id}/${filename.substring(41)}`, {
+                data: {
+                    type: "banner"
+                }
+            });
             setMsg("Imagem deletada com sucesso");
             setTypeToast("success");
             setOpenToast(true);
