@@ -9,7 +9,7 @@ import { api } from '../lib/axios';
 import { useForm } from 'react-hook-form';
 import Toast from './Toast';
 import CloseIcon from '@mui/icons-material/Close';
-import Image from 'next/image'; 
+import Image from 'next/image';
 
 
 const style = {
@@ -75,7 +75,11 @@ export default function ModalUpload({ modalUpload, setModalUpload, product, setP
 
     async function deleteImg(filename: string) {
         try {
-            await api.delete(`/delete-file/${product.id}/${filename.substring(41)}`);
+            await api.delete(`/delete-file/${product.id}/${filename.substring(41)}`, {
+                data: {
+                    type: "product"
+                }
+            });
             setMsg("Imagem deletada com sucesso");
             setTypeToast("success");
             setOpenToast(true);
