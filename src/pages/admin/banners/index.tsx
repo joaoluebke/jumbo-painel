@@ -146,7 +146,7 @@ export default function Banners() {
         <Box>
             <Header />
             <Toast msg={msg} duration={3000} type={typeToast} openToast={openToast} setOpenToast={setOpenToast} />
-            <BannerUpload ruleId={ruleId} modalUpload={modalUpload} setModalUpload={setModalUpload} banner={banner} setBanner={setBanner} bannerImg={bannerImg} setBannerImg />
+            <BannerUpload ruleId={ruleId} modalUpload={modalUpload} setModalUpload={setModalUpload} banner={banner} setBanner={setBanner} bannerImg={bannerImg} setBannerImg={setBannerImg} />
             <Box p={15}>
                 <DataGrid
                     sx={{ minWidth: 650, minHeight: 371, mt: 15 }}

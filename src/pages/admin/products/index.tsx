@@ -159,7 +159,7 @@ export default function Products() {
         <Box>
             <Header />
             <Toast msg={msg} duration={3000} type={typeToast} openToast={openToast} setOpenToast={setOpenToast} />
-            <ModalUpload ruleId={ruleId} modalUpload={modalUpload} setModalUpload={setModalUpload} product={product} setProduct={setProduct} productImg={productImg} setProductImg />
+            <ModalUpload ruleId={ruleId} modalUpload={modalUpload} setModalUpload={setModalUpload} product={product} setProduct={setProduct} productImg={productImg} setProductImg={setProductImg} />
             <Box p={15}>
                 <DataGrid
                     sx={{ minWidth: 650, minHeight: 371, mt: 15 }}
